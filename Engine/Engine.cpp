@@ -3,7 +3,11 @@
 
 gameMaster::gameMaster(void)
 {
-  this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "SFML TEST");
+  planetSystem = new PlanetSystem();
+  sf::ContextSettings windowSettings;
+  windowSettings.antialiasingLevel = 8;
+  this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "SFML TEST", sf::Style::Default, windowSettings);
+  this->clearColor = new sf::Color(5, 5, 5, 255);
   loop();
 }
 
@@ -18,14 +22,12 @@ void gameMaster::loopStep()
     {
         processEvent(event);
     }
-    window->clear();
+    window->clear(*this->clearColor);
+    planetSystem->draw(this->window);
     window->display();
 }
 void gameMaster::processEvent(sf::Event ev)
 {
-    if(ev.type == sf::Event::MouseButtonPressed)
-    {
-    }
-    else if(ev.type == sf::Event::Closed)
+    if(ev.type == sf::Event::Closed)
         window->close();
 }
